@@ -104,7 +104,7 @@ typedef struct s_toolkit
 	// char	*history;
 	t_tree	*tree;
 	// char	**envp;
-	t_table	**parsing_table;
+	t_table	**parsingtable;
 	int		*hd_fds;
 }	t_toolkit;
 
@@ -182,8 +182,8 @@ int check_quote(int *i, char *str);
 int quote_count(int *i, char *str, t_sdQuote *quote);
 int quote_type(t_sdQuote *quote);
 
-void    init_sdQuote(t_sdQuote *q);
-int sep_to_sep_len(char *line, t_sdQuote *sdQ);
+void    init_sdquote(t_sdQuote *q);
+int sep_to_sep_len(char *line, t_sdQuote *sdq);
 int check_sep(char c);
 int tok_sep_len(char *line, int i);
 int	ft_strcmp(const char *s1, const char *s2);
@@ -203,18 +203,18 @@ t_tree	*ms_search_reduction(t_tree **tree, int reduction);
 void	ms_remove_node_from_list(t_tree **tree, t_tree *node);
 t_tree	*ms_stack_to_node(t_stack *popped);
 
-t_tree	*syntax_analysis(t_token *token, t_table **parsing_table);
+t_tree	*syntax_analysis(t_token *token, t_table **parsingtable);
 t_tree	*ms_fix_param_types(t_tree *tree);
 static void	ms_visit_fix_types(t_tree *node);
 int	reject(void);
 int	accept(void);
-t_table *getEntry(t_token *token, t_table **parsing_table, t_stack *stack);
+t_table *getentry(t_token *token, t_table **parsingtable, t_stack *stack);
 
 t_stack *init_stack();
 //static int	shift_to_stack(t_table *table_entry, t_stack **stack, t_token **token);
 int	change_stack_state(int next_state, t_stack **stack);
 int	reduce_stack(t_table *table_entry, t_tree **tree, t_stack **stack, t_table **pt);
-int	pro_red_next_state(t_stack *stack, t_table **parsing_table);
+int	pro_red_next_state(t_stack *stack, t_table **parsingtable);
 int	push_reducted(t_stack **stack, int next);
 t_stack	*pop_oper(t_stack **stack, int reduce);
 void	pop_check(t_stack **red, t_stack *stack);

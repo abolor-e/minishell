@@ -6,7 +6,7 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:35:46 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 14:43:02 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:07:19 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_token	*token_creation(int token_len, char *str, char *exit, int *q)
 	while (str[i] != '\0')
 	{
 		if (str[i] == '$')
-			check_env(str, exit, new, &i, &i_new);//Check it out! Don't forget to work on it!
+			check_env(str, exit, new, &i, &i_new);
 		else if (str[i] == '\"' || str[i] == '\'')
 			*q = replace_quote(str, exit, new, &i, &i_new);
 		else
@@ -101,6 +101,14 @@ t_token	*token_creation(int token_len, char *str, char *exit, int *q)
 	return (token);
 }
 
+t_token	*ft_token(char *line, t_sdQuote **sdquote)
+{
+	t_token	*token;
+	t_token	*all;
+
+	
+}
+
 /*
 Returns singly linked list which has tokens
 */
@@ -111,18 +119,18 @@ t_token	*ft_lexer(char *line)// might add exit code!
 	t_token		*all;
 	int			status;
 	char		*exit;
-	t_sdQuote	sdQuote;
+	t_sdQuote	sdquote;
 
 	status = 0;
 	exit = ft_itoa(status);
-	init_sdQuote(&sdQuote);
+	init_sdquote(&sdquote);
 	token = NULL;
 	all = NULL;
 	while (*line)
 	{
 		while (*line != '\0' && (*line == ' ' || *line == '\t'))
 			line++;
-		token_len = sep_to_sep_len(line, &sdQuote);
+		token_len = sep_to_sep_len(line, &sdquote);
 		if (token_len == 0)
 			break ;
 		token = token_cre(token_len, line, exit);

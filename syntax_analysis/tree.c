@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:04:35 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 15:05:02 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:01:43 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,41 +35,6 @@ t_tree	*ms_stack_to_node(t_stack *popped)
 		return (node);
 	}
 	return (NULL);
-}
-
-/*
-** REMOVE NODE FROM LIST
-** Remove a node from the node list that will be attached under a reduction
-** node
-*/
-
-void	ms_remove_node_from_list(t_tree **tree, t_tree *node)
-{
-	t_tree	*previous;
-	t_tree	*tmp;
-
-	previous = NULL;
-	tmp = NULL;
-	if (*tree == node)
-	{
-		*tree = node->next;
-		return ;
-	}
-	else
-	{
-		previous = NULL;
-		tmp = *tree;
-		while (tmp)
-		{
-			if (tmp == node)
-			{
-				previous->next = tmp->next;
-				return ;
-			}
-			previous = tmp;
-			tmp = tmp->next;
-		}
-	}
 }
 
 /*

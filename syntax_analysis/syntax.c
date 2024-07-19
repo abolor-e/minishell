@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:02:19 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 15:03:04 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:57:29 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ if not token type by default type -1: default choice -1!
 If input type is not equal to any pt token type!
 */
 
-t_table	*getEntry(t_token *token, t_table **parsing_table, t_stack *stack)
+t_table	*getentry(t_token *token, t_table **parsingtable, t_stack *stack)
 {
 	int		i;
 	int		t_type;
@@ -54,14 +54,14 @@ t_table	*getEntry(t_token *token, t_table **parsing_table, t_stack *stack)
 	table_entry = NULL;
 	if (token != NULL)
 		t_type = token->type;
-	while (parsing_table[++i])
+	while (parsingtable[++i])
 	{
-		if (parsing_table[i]->state == stack->state)
+		if (parsingtable[i]->state == stack->state)
 		{
-			if (parsing_table[i]->token_type == t_type)
-				return (parsing_table[i]);
-			else if (parsing_table[i]->token_type == -1)
-				table_entry = parsing_table[i];
+			if (parsingtable[i]->token_type == t_type)
+				return (parsingtable[i]);
+			else if (parsingtable[i]->token_type == -1)
+				table_entry = parsingtable[i];
 		}
 	}
 	return (table_entry);
@@ -78,42 +78,11 @@ int	reject(void)
 }
 
 /*
-** TREE TYPE FIXING
-*/
-
-static void	ms_visit_fix_types(t_tree *node)
-{
-	if (!node)
-		return ;
-	if (node->reduc == R_FILENAME)
-		node->right->type = A_FILE;
-	if (node->reduc == R_HERE_END)
-		node->right->type = A_LIMITER;
-	if (node->reduc > R_CMD_WORD)
-	{
-		if (node->left && node->left->type == A_CMD)
-			node->left->type = A_PARAM;
-		if (node->right && node->right->type == A_CMD)
-			node->right->type = A_PARAM;
-	}
-	ms_visit_fix_types(node->left);
-	ms_visit_fix_types(node->right);
-}
-
-t_tree	*ms_fix_param_types(t_tree *tree)
-{
-	if (tree && tree->type == -1)
-		tree->type = -2;
-	ms_visit_fix_types(tree);
-	return (tree);
-}
-
-/*
 1. Returns AST built checking the parsing table (syntax) 
 2. Uses shift and reduce method
 */
 
-t_tree	*syntax_analysis(t_token *token, t_table **parsing_table)
+t_tree	*syntax_analysis(t_token *token, t_table **parsingtable)
 {
 	t_tree	*tree;
 	t_table	*table_entry;
@@ -128,11 +97,11 @@ t_tree	*syntax_analysis(t_token *token, t_table **parsing_table)
 	input_begin = token;
 	while (i == 0)
 	{
-		table_entry = getEntry(token, parsing_table, stack);
+		table_entry = getentry(token, parsingtable, stack);
 		if (table_entry != NULL && table_entry->action == SHIFT_TO_STACK)
 			i = shift_to_stack(table_entry, &stack, &token);
 		else if (table_entry != NULL && table_entry->action == REDUCE_STACK)
-			i = reduce_stack(table_entry, &tree, &stack, parsing_table);
+			i = reduce_stack(table_entry, &tree, &stack, parsingtable);
 		else if (table_entry != NULL && table_entry->action == ACCEPT)
 			i = accept();
 		else

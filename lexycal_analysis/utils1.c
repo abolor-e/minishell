@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:46:39 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 14:47:13 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:25:21 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_sep(char c)
 	return (0);
 }
 
-int	sep_to_sep_len(char *line, t_sdQuote *sdQ)
+int	sep_to_sep_len(char *line, t_sdQuote *sdq)
 {
 	int	a;
 	int	j;
@@ -39,16 +39,16 @@ int	sep_to_sep_len(char *line, t_sdQuote *sdQ)
 	while (line[a])
 	{
 		if (line[a] == '\'')
-			sdQ->single_q++;
+			sdq->single_q++;
 		if (line[a] == '\"')
-			sdQ->double_q++;
+			sdq->double_q++;
 		if (check_sep(line[a]) == 1)
 		{
-			if (sdQ->double_q % 2 == 0 && sdQ->single_q == 0)
+			if (sdq->double_q % 2 == 0 && sdq->single_q == 0)
 				break ;
-			else if (sdQ->double_q % 2 == 1 && sdQ->single_q == 2)
+			else if (sdq->double_q % 2 == 1 && sdq->single_q == 2)
 				break ;
-			else if (sdQ->double_q % 2 == 2 && sdQ->single_q == 1)
+			else if (sdq->double_q % 2 == 2 && sdq->single_q == 1)
 				break ;
 		}
 		a++;
@@ -59,7 +59,7 @@ int	sep_to_sep_len(char *line, t_sdQuote *sdQ)
 	return (j);
 }
 
-void	init_sdQuote(t_sdQuote *q)
+void	init_sdquote(t_sdQuote *q)
 {
 	q->single_q = 0;
 	q->double_q = 0;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack.c                                            :+:      :+:    :+:   */
+/*   stack1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:57:10 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 15:00:12 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:50:24 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	push_reducted(t_stack **stack, int next)
 	return (0);
 }
 
-int	pro_red_next_state(t_stack *stack, t_table **parsing_table)
+int	pro_red_next_state(t_stack *stack, t_table **parsingtable)
 {
 	int	i;
 	int	state;
@@ -77,31 +77,17 @@ int	pro_red_next_state(t_stack *stack, t_table **parsing_table)
 
 	state = stack->next->state;
 	i = -1;
-	while (parsing_table[++i])
+	while (parsingtable[++i])
 	{
-		if (parsing_table[i]->state == state)
+		if (parsingtable[i]->state == state)
 		{
-			if (parsing_table[i]->token_type == stack->type)
-				return (parsing_table[i]->next_state);
-			else if (parsing_table[i]->token_type == -1)
-				next_state = parsing_table[i]->next_state;
+			if (parsingtable[i]->token_type == stack->type)
+				return (parsingtable[i]->next_state);
+			else if (parsingtable[i]->token_type == -1)
+				next_state = parsingtable[i]->next_state;
 		}
 	}
 	return (next_state);
-}
-
-void	ms_clear_stack(t_stack *stack)
-{
-	t_stack	*next;
-
-	next = NULL;
-	while (stack)
-	{
-		next = stack->next;
-		free(stack->data);
-		free(stack);
-		stack = next;
-	}
 }
 
 int	reduce_stack(t_table *table_entry, t_tree **tree,
@@ -128,43 +114,4 @@ int	reduce_stack(t_table *table_entry, t_tree **tree,
 		ms_clear_stack(pop_stack);
 	}
 	return (-1);
-}
-
-int	change_stack_state(int next_state, t_stack **stack)
-{
-	t_stack	*new_stack;
-
-	new_stack = (t_stack *)malloc(sizeof(*new_stack));
-	if (!new_stack)
-		return (-1);
-	new_stack->data = NULL;
-	new_stack->state = next_state;
-	new_stack->next = *stack;
-	*stack = new_stack;
-	new_stack->type = -1;
-	return (0);
-}
-
-/*Shift action: 
-1. Pushes an element to the stack
-2. Creates new stack element which will be the next element (change of state)
-*/
-
-/*Initialize the stack:
-Stack is needed to use the reduce and shift method
-Reduces when 
-*/
-
-t_stack	*init_stack(void)
-{
-	t_stack	*new;
-
-	new = (t_stack *)malloc(sizeof(*new));
-	if (!new)
-		return (NULL);
-	new->state = 0;
-	new->next = NULL;
-	new->data = NULL;
-	new->type = -1;
-	return (new);
 }

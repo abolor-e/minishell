@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:09:46 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 15:10:35 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:49:21 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ int	main(int ac, char **av, char **envp)
 	t_token		*input;
 	char		*inp;
 	t_tree		*tree;
-	t_table		**parsing_table;
+	t_table		**parsingtable;
 	t_toolkit	*toolkit;
 	t_envb		*env;
 
 	inp = readline("");
 	input = ft_lexer(inp);
-	parsing_table = ft_init_parsing_table();
-	tree = syntax_analysis(input, parsing_table);
+	parsingtable = ft_init_parsing_table();
+	tree = syntax_analysis(input, parsingtable);
 	env = env_init(envp);
 	if (!tree)
 		printf("Tree is NULL\n");
