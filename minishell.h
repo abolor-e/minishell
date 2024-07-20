@@ -144,12 +144,18 @@ typedef struct s_env
 
 extern t_env	*g_envp;
 
-typedef struct s_cd
+typedef struct s_varcomb
 {
-	char	*ar;
-	char	*code;
+	char	*str;
+	char	*exit;
+}				t_varcomb;
 
-}	t_cd;
+typedef struct s_varquote
+{
+	int	a;
+	int	i;
+	int	quote_type;
+}				t_varquote;
 
 typedef struct s_envb
 {
@@ -161,18 +167,27 @@ typedef struct s_envb
 }	t_envb;
 
 //Lexical!
+//Newly added function to minimize 25 lines functions!
+t_token	*ft_token(char *line, t_sdQuote sdquote, char *exit);
+void	sep_util(char *line, int a, t_sdQuote *sdq);
+int	replace_var_util(char *str, int length, char *string, char *new, int *i_new);
+
+
+
+
+
 t_token *ft_lexer(char *line);
 t_token	*ft_newtoken(void *content, int c);
 void	ft_tokenadd_back(t_token **lst, t_token *new);
 t_ttypes	catego_toketype(char *content, int c);
 t_token *token_creation(int token_len, char *line, char *exit, int *q);
-int	check_env(char *str, char *exit, char *new, int *i, int *i_new);
+int	check_env(t_varcomb vc, char *new, int *i, int *i_new);
 char    *token_str(int token_len, char *line);
 
-int replace_quote(char *str, char *exit, char *new, int *i, int *i_new);
+int	replace_quote(t_varcomb vc, char *new, int *i, int *i_new);
 int sq_dollar(char *str, char sq);
-int replace_double(char *str, char *exit, char *new, int *i_new, int a, int i, int quote_type);
-int check_envvar(char *str, char *exit, char *new, int *i_new, int a, int i, int quote_type);
+int	replace_double(t_varcomb vc, char *new, int *i_new, t_varquote i);
+int	check_envvar(t_varcomb vc, char *new, int *i_new, t_varquote i);
 int replace_var(char *str, char *exit, int index, char *new, int *i_new);
 int replace_var_2(char *new, char *newstr, int *i_new, int len);
 int envvar_len(char *str);

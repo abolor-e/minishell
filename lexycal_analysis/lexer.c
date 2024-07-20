@@ -6,7 +6,7 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:35:46 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/19 16:07:19 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:01:34 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,6 @@ char	*token_str(int token_len, char *line)
 	}
 	str[i] = '\0';
 	return (str);
-}
-
-int	check_env(char *str, char *exit, char *new, int *i, int *i_new)
-{
-	int	temp;
-	int	len_var;
-
-	temp = (*i);
-	len_var = 0;
-	while (str[temp] != '$')
-		temp++;
-	if (str[temp + 1])
-		len_var = replace_var(str, exit, temp + 1, new, i_new);
-	else
-	{
-		new[0] = '$';
-		new[1] = '\0';
-		len_var = 0;
-	}
-	(*i_new) = ft_strlen(new);
-	(*i) = (*i) + len_var + 1;
-	return (len_var);
 }
 
 /*
@@ -86,9 +64,9 @@ t_token	*token_creation(int token_len, char *str, char *exit, int *q)
 	while (str[i] != '\0')
 	{
 		if (str[i] == '$')
-			check_env(str, exit, new, &i, &i_new);
+			check_env((t_varcomb){str, exit}, new, &i, &i_new);
 		else if (str[i] == '\"' || str[i] == '\'')
-			*q = replace_quote(str, exit, new, &i, &i_new);
+			*q = replace_quote((t_varcomb){str, exit}, new, &i, &i_new);
 		else
 			new[i_new++] = str[i++];
 		new[i_new] = '\0';
@@ -101,29 +79,16 @@ t_token	*token_creation(int token_len, char *str, char *exit, int *q)
 	return (token);
 }
 
-t_token	*ft_token(char *line, t_sdQuote **sdquote)
-{
-	t_token	*token;
-	t_token	*all;
-
-	
-}
-
 /*
 Returns singly linked list which has tokens
 */
-t_token	*ft_lexer(char *line)// might add exit code!
-{
-	int			token_len;
-	t_token		*token;
-	t_token		*all;
-	int			status;
-	char		*exit;
-	t_sdQuote	sdquote;
 
-	status = 0;
-	exit = ft_itoa(status);
-	init_sdquote(&sdquote);
+t_token	*ft_token(char *line, t_sdQuote sdquote, char *exit)
+{
+	t_token	*token;
+	t_token	*all;
+	int		token_len;
+
 	token = NULL;
 	all = NULL;
 	while (*line)
@@ -140,5 +105,21 @@ t_token	*ft_lexer(char *line)// might add exit code!
 	ft_tokenadd_back(&all, ft_newtoken(NULL, 0));
 	if (exit)
 		free(exit);
+	return (all);
+}
+
+/*Might add exit code as an argument in ft_lexer*/
+
+t_token	*ft_lexer(char *line)
+{
+	t_token		*all;
+	int			status;
+	char		*exit;
+	t_sdQuote	sdquote;
+
+	status = 0;
+	exit = ft_itoa(status);
+	init_sdquote(&sdquote);
+	all = ft_token(line, sdquote, exit);
 	return (all);
 }

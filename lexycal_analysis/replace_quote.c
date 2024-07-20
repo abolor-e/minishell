@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_quote.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:54:43 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/16 15:55:20 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:55:22 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,12 @@ int	replace_var_2(char *new, char *newstr, int *i_new, int len)
 	return (len);
 }
 
-int	replace_var(char *str, char *exit, int index, char *new, int *i_new)
+int	replace_var_util(char *str, int length, char *string, char *new, int *i_new)
 {
-	int		length;
-	char	*string;
 	int		i;
 	char	*newstr;
 
 	i = 0;
-	if (str[index] == '?')
-		return (replace_var_2(new, exit, i_new, 1));
-	length = envvar_len(str);
-	string = malloc(sizeof(char) * (length + 1));
-	if (!string || !length)
-		return (0);
 	if (length < 0)
 	{
 		free(string);
@@ -82,40 +74,54 @@ int	replace_var(char *str, char *exit, int index, char *new, int *i_new)
 	return (length);
 }
 
-int	check_envvar(char *str, char *exit, char *new, int *i_new, int a, int i, int quote_type)
+int	replace_var(char *str, char *exit, int index, char *new, int *i_new)
+{
+	int		length;
+	char	*string;
+
+	if (str[index] == '?')
+		return (replace_var_2(new, exit, i_new, 1));
+	length = envvar_len(str);
+	string = malloc(sizeof(char) * (length + 1));
+	if (!string || !length)
+		return (0);
+	length = replace_var_util(str, length, string, new, i_new);
+	return (length);
+}
+
+int	check_envvar(t_varcomb vc, char *new, int *i_new, t_varquote i)
 {
 	int	temp;
 	int	variable_len;
 
-	temp = a;
-	while (str[a] != '\0' && a < i)
+	temp = i.a;
+	while (vc.str[i.a] != '\0' && i.a < i.i)
 	{
-		if (str[a] == '$' && str[a + 1])
+		if (vc.str[i.a] == '$' && vc.str[i.a + 1])
 		{
-			variable_len = replace_var(str, exit, a + 1, new, i_new);
+			variable_len = replace_var(vc.str, vc.exit, i.a + 1, new, i_new);
 			*i_new = (int)ft_strlen(new);
-			a = a + variable_len + 1;
+			i.a = i.a + variable_len + 1;
 		}
-		else if ((str[a] == '\'' && quote_type == 1 && !strchr_check(str, temp, i, '\'')) ||
-				(str[a] == '\"' && quote_type == 2 && !strchr_check(str, temp, i, '\"')))
-			a++;
+		else if ((vc.str[i.a] == '\'' && i.quote_type == 1 && !strchr_check(vc.str, temp, i.i, '\'')) || (vc.str[i.a] == '\"' && i.quote_type == 2 && !strchr_check(vc.str, temp, i.i, '\"')))
+			i.a++;
 		else
 		{
-			new[*i_new] = str[a];
-			a++;
+			new[*i_new] = vc.str[i.a];
+			i.a++;
 			*i_new = *i_new + 1;
 		}
 	}
 	new[(*i_new) + 1] = '\0';
 	*i_new = ft_strlen(new);
-	return (a); 
+	return (i.a);
 }
 
 /*
 Replaces quotes and takes only the input string
 Returns whether quote exists or no
 */
-int	replace_quote(char *str, char *exit, char *new, int *i, int *i_new)
+int	replace_quote(t_varcomb vc, char *new, int *i, int *i_new)
 {
 	int	quote;
 	int	quote_type;
@@ -123,18 +129,18 @@ int	replace_quote(char *str, char *exit, char *new, int *i, int *i_new)
 
 	a = *i;
 	quote = 0;
-	quote_type = check_quote(i, str);
+	quote_type = check_quote(i, vc.str);
 	if (quote_type == 1 || quote_type == 2)
 		quote = 1;
 	while (a < *i)
 	{
-		if (quote == 1 && str[a] == '\'')
+		if (quote == 1 && vc.str[a] == '\'')
 		{
-			if (check_ds(str, a, *i) && !sq_dollar(str, '\''))
-				a = check_envvar(str, exit, new, i_new, a, *i, quote_type);
+			if (check_ds(vc.str, a, *i) && !sq_dollar(vc.str, '\''))
+				a = check_envvar(vc, new, i_new, (t_varquote){a, *i, quote_type});
 		}
 		else
-			a = replace_double(str, exit, new, i_new, a, *i, quote_type);
+			a = replace_double(vc, new, i_new, (t_varquote){a, *i, quote_type});
 		a++;
 	}
 	new[(*i_new) + 1] = '\0';

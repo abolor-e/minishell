@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:49:57 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/16 15:52:26 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:52:54 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	check_quote(int *i, char *str)
 	t_sdQuote	quote;
 
 	a = ft_strlen(str);
-	init_sdQuote(&quote);
+	init_sdquote(&quote);
 	while (*i < a)
 	{
 		if (!quote_count(i, str, &quote))
@@ -98,29 +98,28 @@ int	sq_dollar(char *str, char sq)
 	return (0);
 }
 
-int	replace_double(char *str, char *exit,
-	char *new, int *i_new, int a, int i, int quote_type)
+int	replace_double(t_varcomb vc, char *new, int *i_new, t_varquote i)
 {
-	if ((quote_type == 1 && str[a] != '\'')
-		|| (quote_type == 2 && str[a] != '\"'))
+	if ((i.quote_type == 1 && vc.str[i.a] != '\'')
+		|| (i.quote_type == 2 && vc.str[i.a] != '\"'))
 	{
-		new[(*i_new)] = str[a];
+		new[(*i_new)] = vc.str[i.a];
 		(*i_new) = (*i_new) + 1;
 	}
-	else if (quote_type == 2 && str[a] == '\"')
+	else if (i.quote_type == 2 && vc.str[i.a] == '\"')
 	{
-		if (check_ds(str, a, i))
-			a = check_envvar(str, exit, new, i_new, a, i, quote_type);
+		if (check_ds(vc.str, i.a, i.i))
+			i.a = check_envvar(vc, new, i_new, i);
 	}
-	else if (quote_type == 0)
+	else if (i.quote_type == 0)
 	{
-		if (check_ds(str, a, i))
-			a = check_envvar(str, exit, new, i_new, a, i, quote_type);
+		if (check_ds(vc.str, i.a, i.i))
+			i.a = check_envvar(vc, new, i_new, i);
 		else
 		{
-			new[*i_new] = str[a];
+			new[*i_new] = vc.str[i.a];
 			(*i_new) = (*i_new) + 1;
 		}
 	}
-	return (a);
+	return (i.a);
 }

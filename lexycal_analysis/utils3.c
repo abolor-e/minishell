@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:48:56 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 14:48:58 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:02:13 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,26 @@ int	check_ds(char *str, int a, int i)
 		a++;
 	}
 	return (0);
+}
+
+int	check_env(t_varcomb vc, char *new, int *i, int *i_new)
+{
+	int	temp;
+	int	len_var;
+
+	temp = (*i);
+	len_var = 0;
+	while (vc.str[temp] != '$')
+		temp++;
+	if (vc.str[temp + 1])
+		len_var = replace_var(vc.str, vc.exit, temp + 1, new, i_new);
+	else
+	{
+		new[0] = '$';
+		new[1] = '\0';
+		len_var = 0;
+	}
+	(*i_new) = ft_strlen(new);
+	(*i) = (*i) + len_var + 1;
+	return (len_var);
 }
