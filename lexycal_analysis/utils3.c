@@ -75,7 +75,7 @@ int	check_env(t_varcomb vc, char *new, int *i, int *i_new)
 	while (vc.str[temp] != '$')
 		temp++;
 	if (vc.str[temp + 1])
-		len_var = replace_var(vc.str, vc.exit, temp + 1, new, i_new);
+		len_var = replace_var(vc, temp + 1, new, i_new);
 	else
 	{
 		new[0] = '$';

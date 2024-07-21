@@ -50,17 +50,16 @@ int	replace_var_2(char *new, char *newstr, int *i_new, int len)
 	return (len);
 }
 
-int	replace_var_util(char *str, int length, char *string, char *new, int *i_new)
+int	replace_var_util(char *str, int length, char *new, int *i_new)
 {
 	int		i;
 	char	*newstr;
+	char	*string;
 
 	i = 0;
-	if (length < 0)
-	{
-		free(string);
-		return (replace_var_2(new, "$", i_new, 0));
-	}
+	string = malloc(sizeof(char) * (length + 1));
+	if (!string)
+		return (0);
 	while (i < length)
 	{
 		string[i] = str[i];
@@ -74,18 +73,22 @@ int	replace_var_util(char *str, int length, char *string, char *new, int *i_new)
 	return (length);
 }
 
-int	replace_var(char *str, char *exit, int index, char *new, int *i_new)
+int	replace_var(t_varcomb vc, int index, char *new, int *i_new)
 {
 	int		length;
-	char	*string;
+	char	*string; 
 
-	if (str[index] == '?')
-		return (replace_var_2(new, exit, i_new, 1));
-	length = envvar_len(str);
-	string = malloc(sizeof(char) * (length + 1));
-	if (!string || !length)
+	if (vc.str[index] == '?')
+		return (replace_var_2(new, vc.exit, i_new, 1));
+	length = envvar_len(vc.str);
+	if (!length)
 		return (0);
-	length = replace_var_util(str, length, string, new, i_new);
+	if (length < 0)
+	{
+		free(string);
+		return (replace_var_2(new, "$", i_new, 0));
+	}
+	length = replace_var_util(vc.str, length, new, i_new);
 	return (length);
 }
 
@@ -99,7 +102,7 @@ int	check_envvar(t_varcomb vc, char *new, int *i_new, t_varquote i)
 	{
 		if (vc.str[i.a] == '$' && vc.str[i.a + 1])
 		{
-			variable_len = replace_var(vc.str, vc.exit, i.a + 1, new, i_new);
+			variable_len = replace_var(vc, i.a + 1, new, i_new);
 			*i_new = (int)ft_strlen(new);
 			i.a = i.a + variable_len + 1;
 		}

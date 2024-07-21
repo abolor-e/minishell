@@ -34,14 +34,27 @@ int	main(int ac, char **av, char **envp)
 	t_toolkit	*toolkit;
 	t_envb		*env;
 
-	inp = readline("");
-	input = ft_lexer(inp);
-	parsingtable = ft_init_parsing_table();
-	tree = syntax_analysis(input, parsingtable);
-	env = env_init(envp);
-	if (!tree)
-		printf("Tree is NULL\n");
-	else
-		ast_executor(tree, env);
-	return (1);
+	while (1)
+	{
+		inp = readline("");
+		input = ft_lexer(inp);
+		parsingtable = ft_init_parsing_table();
+		tree = syntax_analysis(input, parsingtable);
+		env = env_init(envp);
+		if (!tree)
+			printf("Tree is NULL\n");
+		else
+			ast_executor(tree, env);
+		//return (1);
+	}
+	// inp = readline("");
+	// input = ft_lexer(inp);
+	// parsingtable = ft_init_parsing_table();
+	// tree = syntax_analysis(input, parsingtable);
+	// env = env_init(envp);
+	// if (!tree)
+	// 	printf("Tree is NULL\n");
+	// else
+	// 	ast_executor(tree, env);
+	// return (1);
 }

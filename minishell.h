@@ -170,8 +170,7 @@ typedef struct s_envb
 //Newly added function to minimize 25 lines functions!
 t_token	*ft_token(char *line, t_sdQuote sdquote, char *exit);
 void	sep_util(char *line, int a, t_sdQuote *sdq);
-int	replace_var_util(char *str, int length, char *string, char *new, int *i_new);
-
+int	replace_var_util(char *str, int length, char *new, int *i_new);
 
 
 
@@ -188,7 +187,7 @@ int	replace_quote(t_varcomb vc, char *new, int *i, int *i_new);
 int sq_dollar(char *str, char sq);
 int	replace_double(t_varcomb vc, char *new, int *i_new, t_varquote i);
 int	check_envvar(t_varcomb vc, char *new, int *i_new, t_varquote i);
-int replace_var(char *str, char *exit, int index, char *new, int *i_new);
+int	replace_var(t_varcomb vc, int index, char *new, int *i_new);
 int replace_var_2(char *new, char *newstr, int *i_new, int len);
 int envvar_len(char *str);
 int strchr_check(char *str, int temp, int i, char sd);
