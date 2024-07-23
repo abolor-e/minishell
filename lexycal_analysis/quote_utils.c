@@ -6,7 +6,7 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:49:57 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/23 14:56:47 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:25:50 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ Counts quotes
 */
 int	quote_count(int *i, char *str, t_sdQuote *quote)
 {
-	if (str[*i] == '\'')
+	if (str[*i] == '\"')
 	{
 		if (quote->double_q == 2)
 			return (0);
 		quote->double_q++;
 	}
-	else if (str[*i] == '\"')
+	else if (str[*i] == '\'')
 	{
 		if (quote->single_q == 2)
 			return (0);
@@ -118,7 +118,7 @@ int	replace_double(t_varcomb vc, char *new, int *i_new, t_varquote i)
 		else
 		{
 			new[*i_new] = vc.str[i.a];
-			(*i_new) = (*i_new) + 1;
+			(*i_new)++;
 		}
 	}
 	return (i.a);

@@ -6,7 +6,7 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:46:39 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/20 14:12:27 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:13:24 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ int	sep_to_sep_len(char *line, t_sdQuote *sdq)
 		sep_util(line, a, sdq);
 		if (check_sep(line[a]) == 1)
 		{
-			if (sdq->double_q % 2 == 0 && sdq->single_q == 0)
+			if (sdq->double_q % 2 == 0 && sdq->single_q % 2 == 0)
 				break ;
-			else if (sdq->double_q % 2 == 1 && sdq->single_q == 2)
+			else if (sdq->double_q % 2 == 1 && sdq->single_q % 2 == 2)
 				break ;
-			else if (sdq->double_q % 2 == 2 && sdq->single_q == 1)
+			else if (sdq->double_q % 2 == 2 && sdq->single_q % 2 == 1)
 				break ;
 		}
 		a++;
