@@ -6,7 +6,7 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:35:46 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/20 16:01:34 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:54:01 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,16 @@ t_token	*token_cre(int token_len, char *line, char *exit)
 	return (token);
 }
 
+//Might delete!
+void	initial(char *new)
+{
+	int	i;
+	
+	i = -1;
+	while (++i < 1000)
+		new[i] = '\0';
+}
+
 t_token	*token_creation(int token_len, char *str, char *exit, int *q)
 {
 	t_token	*token;
@@ -61,6 +71,7 @@ t_token	*token_creation(int token_len, char *str, char *exit, int *q)
 	i_new = 0;
 	i = 0;
 	token = NULL;
+	initial(new);
 	while (str[i] != '\0')
 	{
 		if (str[i] == '$')

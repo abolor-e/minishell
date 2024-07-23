@@ -6,7 +6,7 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:09:46 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/19 14:49:21 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:58:18 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		inp = readline("");
+		add_history(inp);
 		input = ft_lexer(inp);
 		parsingtable = ft_init_parsing_table();
 		tree = syntax_analysis(input, parsingtable);

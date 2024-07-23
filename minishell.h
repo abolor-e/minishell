@@ -154,7 +154,7 @@ typedef struct s_varquote
 {
 	int	a;
 	int	i;
-	int	quote_type;
+	int	qt;
 }				t_varquote;
 
 typedef struct s_envb
@@ -171,7 +171,7 @@ typedef struct s_envb
 t_token	*ft_token(char *line, t_sdQuote sdquote, char *exit);
 void	sep_util(char *line, int a, t_sdQuote *sdq);
 int	replace_var_util(char *str, int length, char *new, int *i_new);
-
+void	initial(char *new);
 
 
 
@@ -190,7 +190,7 @@ int	check_envvar(t_varcomb vc, char *new, int *i_new, t_varquote i);
 int	replace_var(t_varcomb vc, int index, char *new, int *i_new);
 int replace_var_2(char *new, char *newstr, int *i_new, int len);
 int envvar_len(char *str);
-int strchr_check(char *str, int temp, int i, char sd);
+int	strchr_ck(char *str, int temp, int i, char sd);
 int check_ds(char *str, int a, int i);
 int check_quote(int *i, char *str);
 int quote_count(int *i, char *str, t_sdQuote *quote);

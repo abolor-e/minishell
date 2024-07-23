@@ -6,7 +6,7 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:52:30 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 15:36:04 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:05:05 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,12 +125,14 @@ t_table	**ft_init_parsing_table(void)
 	if (fd == -1)
 	{
 		ms_free_table(table);
+		printf("Test 1");
 		return (NULL);
 	}
 	if (ft_create_table_state(fd, table) == -1)
 	{
 		ms_free_table(table);
 		close (fd);
+		printf("Test 2");
 		return (NULL);
 	}
 	close(fd);

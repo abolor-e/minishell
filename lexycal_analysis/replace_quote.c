@@ -6,7 +6,7 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:54:43 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/20 15:55:22 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:40:17 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,12 @@ int	replace_var_util(char *str, int length, char *new, int *i_new)
 	char	*newstr;
 	char	*string;
 
-	i = 0;
+	i = -1;
 	string = malloc(sizeof(char) * (length + 1));
 	if (!string)
 		return (0);
-	while (i < length)
-	{
+	while (++i < length)
 		string[i] = str[i];
-		i++;
-	}
 	string[i] = 0;
 	newstr = ft_getenv(string);
 	free(string);
@@ -76,7 +73,7 @@ int	replace_var_util(char *str, int length, char *new, int *i_new)
 int	replace_var(t_varcomb vc, int index, char *new, int *i_new)
 {
 	int		length;
-	char	*string; 
+	char	*string;
 
 	if (vc.str[index] == '?')
 		return (replace_var_2(new, vc.exit, i_new, 1));
@@ -106,7 +103,9 @@ int	check_envvar(t_varcomb vc, char *new, int *i_new, t_varquote i)
 			*i_new = (int)ft_strlen(new);
 			i.a = i.a + variable_len + 1;
 		}
-		else if ((vc.str[i.a] == '\'' && i.quote_type == 1 && !strchr_check(vc.str, temp, i.i, '\'')) || (vc.str[i.a] == '\"' && i.quote_type == 2 && !strchr_check(vc.str, temp, i.i, '\"')))
+		else if ((vc.str[i.a] == '\'' && i.qt == 1 && !strchr_ck(vc.str, temp, i.i, '\''))
+				|| (vc.str[i.a] == '\"'
+				&& i.qt == 2 && !strchr_ck(vc.str, temp, i.i, '\"')))
 			i.a++;
 		else
 		{
@@ -127,23 +126,23 @@ Returns whether quote exists or no
 int	replace_quote(t_varcomb vc, char *new, int *i, int *i_new)
 {
 	int	quote;
-	int	quote_type;
+	int	qt;
 	int	a;
 
 	a = *i;
 	quote = 0;
-	quote_type = check_quote(i, vc.str);
-	if (quote_type == 1 || quote_type == 2)
+	qt = check_quote(i, vc.str);
+	if (qt == 1 || qt == 2)
 		quote = 1;
 	while (a < *i)
 	{
 		if (quote == 1 && vc.str[a] == '\'')
 		{
 			if (check_ds(vc.str, a, *i) && !sq_dollar(vc.str, '\''))
-				a = check_envvar(vc, new, i_new, (t_varquote){a, *i, quote_type});
+				a = check_envvar(vc, new, i_new, (t_varquote){a, *i, qt});
 		}
 		else
-			a = replace_double(vc, new, i_new, (t_varquote){a, *i, quote_type});
+			a = replace_double(vc, new, i_new, (t_varquote){a, *i, qt});
 		a++;
 	}
 	new[(*i_new) + 1] = '\0';

@@ -6,7 +6,7 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:49:57 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/20 15:52:54 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:56:47 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,18 +100,18 @@ int	sq_dollar(char *str, char sq)
 
 int	replace_double(t_varcomb vc, char *new, int *i_new, t_varquote i)
 {
-	if ((i.quote_type == 1 && vc.str[i.a] != '\'')
-		|| (i.quote_type == 2 && vc.str[i.a] != '\"'))
+	if ((i.qt == 1 && vc.str[i.a] != '\'')
+		|| (i.qt == 2 && vc.str[i.a] != '\"'))
 	{
 		new[(*i_new)] = vc.str[i.a];
 		(*i_new) = (*i_new) + 1;
 	}
-	else if (i.quote_type == 2 && vc.str[i.a] == '\"')
+	else if (i.qt == 2 && vc.str[i.a] == '\"')
 	{
 		if (check_ds(vc.str, i.a, i.i))
 			i.a = check_envvar(vc, new, i_new, i);
 	}
-	else if (i.quote_type == 0)
+	else if (i.qt == 0)
 	{
 		if (check_ds(vc.str, i.a, i.i))
 			i.a = check_envvar(vc, new, i_new, i);
