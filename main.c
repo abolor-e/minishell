@@ -3,59 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:09:46 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/23 13:58:18 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/31 02:32:08 by marechaloli      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// t_toolkit	*init_toolkit(t_tree *tree, t_table **table)
-// {
-// 	t_toolkit	*toolkit;
+char	*new_bison(void)
+{
+	char	*pwd;
+	char	*buf;
+	long	size;
 
-// 	toolkit = malloc(sizeof(t_toolkit *));
-// 	if (!toolkit)
-// 		return (NULL);
-// 	// toolkit->parsing_table = table;
-// 	toolkit->tree = tree;
-// 	// toolkit->hd_fds = NULL;
-// 	return (toolkit);
-// }
+	size = pathconf(".", _PC_PATH_MAX);
+	buf = malloc((size_t)size);
+	if (!buf)
+		return (".");
+	pwd = getcwd(buf, size);
+	if (pwd == NULL)
+		return (".");
+	return (pwd);
+}
+
+void	free_env(t_envb *env)
+{
+	free(env->pwd);
+	free(env);
+}
+
+void	control_d(void)
+{
+	rl_on_new_line();
+	rl_redisplay();
+	printf("exit\n");
+	exit (0);
+}
+
+void	minishell_loop(t_envb *env, char *pt_path, t_token *input)
+{
+	char	*inp;
+	int		fd[2];
+	t_table	**parsingtable;
+	t_tree	*tree;
+
+	while (1)
+	{
+		signal_handlers();
+		inp = readline("\033[1;35mSUPRAHELL-1.0$ \e[0m");
+		if (!inp)
+		{
+			free_env(env);
+			control_d();
+		}
+		fd[0] = dup(0);
+		fd[1] = dup(1);
+		add_history((char *)inp);
+		input = ft_lexer(inp);
+		parsingtable = ft_init_parsing_table(pt_path);
+		tree = syntax_analysis(input, parsingtable);
+		if (tree)
+			ast_executor(tree, env);
+		fd[0] = dup2(fd[0], 0);
+		fd[1] = dup2(fd[1], 1);
+	}
+}
 
 int	main(int ac, char **av, char **envp)
 {
 	t_token		*input;
-	char		*inp;
-	t_tree		*tree;
-	t_table		**parsingtable;
-	t_toolkit	*toolkit;
 	t_envb		*env;
+	char		**test;
+	char		*pt_path;
 
-	while (1)
+	if (ac == 1)
 	{
-		inp = readline("");
-		add_history(inp);
-		input = ft_lexer(inp);
-		parsingtable = ft_init_parsing_table();
-		tree = syntax_analysis(input, parsingtable);
-		env = env_init(envp);
-		if (!tree)
-			printf("Tree is NULL\n");
+		if (!(envp[0]))
+			exit (1);
 		else
-			ast_executor(tree, env);
-		//return (1);
+			env = env_init(envp);
+		pt_path = ft_strjoin(new_bison(), BISON_AUTOMATON);
+		minishell_loop(env, pt_path, input);
+		free_env(env);
+		reset_signal_handlers();
 	}
-	// inp = readline("");
-	// input = ft_lexer(inp);
-	// parsingtable = ft_init_parsing_table();
-	// tree = syntax_analysis(input, parsingtable);
-	// env = env_init(envp);
-	// if (!tree)
-	// 	printf("Tree is NULL\n");
-	// else
-	// 	ast_executor(tree, env);
-	// return (1);
+	else
+		write(2, "Very funny, try again!\n", 23);
 }

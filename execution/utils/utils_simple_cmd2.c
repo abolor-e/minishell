@@ -3,37 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_simple_cmd2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:19:36 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 15:19:38 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/08/04 22:49:56 by marechaloli      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-// char	*ft_strnstr(const char *s1, const char *s2, size_t len)
-// {
-// 	size_t	i;
-// 	size_t	j;
-
-// 	i = 0;
-// 	if (!s2[0])
-// 		return ((char *)s1);
-// 	while (s1[i] && len > 0)
-// 	{
-// 		if (s1[i] != '\0')
-// 		{
-// 			j = 0;
-// 			while (s1[i + j] == s2[j] && s1[i + j] && i + j < len && s2[j])
-// 				j++;
-// 			if (s2[j] == '\0')
-// 				return ((char *)(s1 + i));
-// 		}
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
 
 static char	**go_to_path(char **envp)
 {
@@ -53,6 +30,8 @@ char	*get_cmd(char **paths, char *cmd)
 {
 	char	*good_cmd;
 
+	if (!paths)
+		return (NULL);
 	while (*paths)
 	{
 		if (access(cmd, F_OK | X_OK) == 0)
@@ -99,4 +78,23 @@ int	env_size(char **env)
 	while (env[size] != NULL)
 		size++;
 	return (size);
+}
+
+char	**last_touch(char **tab, int i)
+{
+	int	k;
+
+	k = i + 1;
+	while (tab[k])
+	{
+		tab[k] = tab[k + 1];
+		k++;
+	}
+	k = i + 1;
+	while (tab[k])
+	{
+		tab[k] = tab[k + 1];
+		k++;
+	}
+	return (tab);
 }

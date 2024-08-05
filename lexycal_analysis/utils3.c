@@ -38,7 +38,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-int	strchr_ck(char *str, int temp, int i, char sd)
+int	s_ck(char *str, int temp, int i, char sd)
 {
 	int	j;
 
@@ -72,9 +72,9 @@ int	check_env(t_varcomb vc, char *new, int *i, int *i_new)
 
 	temp = (*i);
 	len_var = 0;
-	while (vc.str[temp] != '$')
+	while (vc.s[temp] != '$')
 		temp++;
-	if (vc.str[temp + 1])
+	if (vc.s[temp + 1])
 		len_var = replace_var(vc, temp + 1, new, i_new);
 	else
 	{

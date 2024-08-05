@@ -48,7 +48,8 @@ int	check_quote(int *i, char *str)
 		if (!quote_count(i, str, &quote))
 			break ;
 		*i = *i + 1;
-		if ((type = quote_type(&quote)))
+		type = quote_type(&quote);
+		if (type)
 			break ;
 	}
 	if (type == 1 || type == 2)
@@ -100,24 +101,24 @@ int	sq_dollar(char *str, char sq)
 
 int	replace_double(t_varcomb vc, char *new, int *i_new, t_varquote i)
 {
-	if ((i.qt == 1 && vc.str[i.a] != '\'')
-		|| (i.qt == 2 && vc.str[i.a] != '\"'))
+	if ((i.qt == 1 && vc.s[i.a] != '\'')
+		|| (i.qt == 2 && vc.s[i.a] != '\"'))
 	{
-		new[(*i_new)] = vc.str[i.a];
+		new[(*i_new)] = vc.s[i.a];
 		(*i_new) = (*i_new) + 1;
 	}
-	else if (i.qt == 2 && vc.str[i.a] == '\"')
+	else if (i.qt == 2 && vc.s[i.a] == '\"')
 	{
-		if (check_ds(vc.str, i.a, i.i))
+		if (check_ds(vc.s, i.a, i.i))
 			i.a = check_envvar(vc, new, i_new, i);
 	}
 	else if (i.qt == 0)
 	{
-		if (check_ds(vc.str, i.a, i.i))
+		if (check_ds(vc.s, i.a, i.i))
 			i.a = check_envvar(vc, new, i_new, i);
 		else
 		{
-			new[*i_new] = vc.str[i.a];
+			new[*i_new] = vc.s[i.a];
 			(*i_new)++;
 		}
 	}

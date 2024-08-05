@@ -3,37 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   replace_quote.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:54:43 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/23 15:54:50 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:18:45 by marechaloli      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-t_env	*g_envp = NULL;
-
-int	envvar_len(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!(*str))
-		return (0);
-	if (ft_isdigit(str[0]))
-		return (1);
-	while (str[i] != '\0')
-	{
-		if (ft_isalnum(str[i]) || str[i] == '_')
-			i++;
-		else
-			break ;
-	}
-	if (i == 0)
-		return (-1);
-	return (i);
-}
 
 int	replace_var_2(char *new, char *newstr, int *i_new, int len)
 {
@@ -63,7 +40,6 @@ int	replace_var_util(char *str, int length, char *new, int *i_new)
 	while (++i < length)
 		string[i] = str[i];
 	string[i] = 0;
-	newstr = ft_getenv(string);
 	free(string);
 	if (newstr)
 		replace_var_2(new, newstr, i_new, length);
@@ -73,49 +49,47 @@ int	replace_var_util(char *str, int length, char *new, int *i_new)
 int	replace_var(t_varcomb vc, int index, char *new, int *i_new)
 {
 	int		length;
-	char	*string;
 
-	if (vc.str[index] == '?')
+	if (vc.s[index] == '?')
 		return (replace_var_2(new, vc.exit, i_new, 1));
-	length = envvar_len(vc.str);
+	length = envvar_len(vc.s);
 	if (!length)
 		return (0);
 	if (length < 0)
 	{
-		free(string);
+		change_single_env(&vc);
 		return (replace_var_2(new, "$", i_new, 0));
 	}
-	length = replace_var_util(vc.str, length, new, i_new);
+	length = replace_var_util(vc.s, length, new, i_new);
 	return (length);
 }
 
 int	check_envvar(t_varcomb vc, char *new, int *i_new, t_varquote i)
 {
-	int	temp;
+	int	t;
 	int	variable_len;
 
-	temp = i.a;
-	while (vc.str[i.a] != '\0' && i.a < i.i)
+	t = i.a;
+	while (vc.s[i.a] != '\0' && i.a < i.i)
 	{
-		if (vc.str[i.a] == '$' && vc.str[i.a + 1])
+		if (vc.s[i.a] == '$' && vc.s[i.a + 1])
 		{
 			variable_len = replace_var(vc, i.a + 1, new, i_new);
+			change_single_env(&vc);
 			*i_new = (int)ft_strlen(new);
 			i.a = i.a + variable_len + 1;
 		}
-		else if ((vc.str[i.a] == '\'' && i.qt == 1 && !strchr_ck(vc.str, temp, i.i, '\''))
-				|| (vc.str[i.a] == '\"'
-				&& i.qt == 2 && !strchr_ck(vc.str, temp, i.i, '\"')))
+		else if ((vc.s[i.a] == '\'' && i.qt == 1 && !s_ck(vc.s, t, i.i, '\''))
+			|| (vc.s[i.a] == '\"' && i.qt == 2 && !s_ck(vc.s, t, i.i, '\"')))
 			i.a++;
 		else
 		{
-			new[*i_new] = vc.str[i.a];
+			new[*i_new] = vc.s[i.a];
 			i.a++;
 			*i_new = *i_new + 1;
 		}
 	}
-	new[(*i_new) + 1] = '\0';
-	*i_new = ft_strlen(new);
+	check_envvar_util(new, i_new);
 	return (i.a);
 }
 
@@ -131,14 +105,14 @@ int	replace_quote(t_varcomb vc, char *new, int *i, int *i_new)
 
 	a = *i;
 	quote = 0;
-	qt = check_quote(i, vc.str);
+	qt = check_quote(i, vc.s);
 	if (qt == 1 || qt == 2)
 		quote = 1;
 	while (a < *i)
 	{
-		if (quote == 1 && vc.str[a] == '\'')
+		if (quote == 1 && vc.s[a] == '\'')
 		{
-			if (check_ds(vc.str, a, *i) && !sq_dollar(vc.str, '\''))
+			if (check_ds(vc.s, a, *i) && !sq_dollar(vc.s, '\''))
 				a = check_envvar(vc, new, i_new, (t_varquote){a, *i, qt});
 		}
 		else

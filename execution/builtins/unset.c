@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:16:17 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 15:16:18 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:08:06 by marechaloli      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,5 @@ int	main_unset(int ac, char **av, t_envb *env)
 	}
 	if (return_value > 0)
 		return_value = 1;
-	free(env->pwd);
-	free(env);
 	return (return_value);
 }

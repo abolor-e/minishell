@@ -3,110 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:14:16 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 15:14:23 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/08/04 23:47:01 by marechaloli      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	check_export(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (i);
-		i++;
-	}
-	return (0);
-}
-
-int	check_print(char *str)
-{
-	int	i;
-	int	j;
-
-	while (str[i])
-		i++;
-	j = i;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			if (str[i + 1] == '"' && str[j - 1] == '"')
-				return (i);
-		i++;
-	}
-	return (0);
-}
-
-int	check_stupid(char *tmp, char stupid)
-{
-	int	i;
-
-	i = 0;
-	while (tmp[i])
-	{
-		if (tmp[i] == stupid)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 void	print_all(t_envb *env)
 {
 	int		i;
 	int		j;
-	char	**tmp;
-	char	**tmp2;
+	int		size;
+	char	**envtmp;
 
-	i = 0;
-	while (i < env_size(env->env))
+	size = env_size(env->env);
+	envtmp = malloc((size + 1) * sizeof(char *));
+	i = -1;
+	while (++i < size)
 	{
-		j = i + 1;
-		while (j < env_size(env->env))
-		{
-			if (ft_comp(env->env[i], env->env[j]) > 0)
-				ft_swap(&env->env[i], &env->env[j]);
-			j++;
-		}
-		i++;
+		envtmp[i] = ft_strdup(env->env[i]);
+		if (!envtmp[i])
+			return (free_tab(envtmp));
 	}
-	i = 0;
-	while (i < env_size(env->env))
+	envtmp[size] = NULL;
+	i = -1;
+	while (++i < env_size(envtmp))
 	{
-		if (check_export(env->env[i]) > 0)
-		{
-			tmp = ft_split(env->env[i], '=');
-			if (check_stupid(tmp[1], '\n'))
-			{
-				tmp2 = ft_split(tmp[1], '\n');
-				if (check_stupid(tmp[1], '"'))
-					printf("declare -x %s=%s\n", tmp[0], tmp2[0]);
-				else
-					printf("declare -x %s=\"%s\"\n", tmp[0], tmp2[0]);
-				freetab(tmp);
-				freetab(tmp2);
-			}
-			else
-			{
-				if (check_stupid(tmp[1], '"'))
-					printf("declare -x %s=%s\n", tmp[0], tmp[1]);
-				else
-					printf("declare -x %s=\"%s\"\n", tmp[0], tmp[1]);
-				freetab(tmp);
-			}
-		}
-		else
-			printf("declare -x %s\n", env->env[i]);
-		i++;
+		j = i;
+		while (++j < env_size(envtmp))
+			if (ft_comp(envtmp[i], envtmp[j]) > 0)
+				ft_swap(&envtmp[i], &envtmp[j]);
 	}
+	print_all_utils(envtmp);
+	free_tab(envtmp);
 }
 
 void	print_3(t_envb *env)
@@ -130,54 +62,45 @@ void	print_export(t_envb *env)
 		print_all(env);
 }
 
-t_envb	*new_env2(t_envb *env, t_envb *export, int j, char *str)
+int	main_export_utils(t_envb *env, char **av)
 {
-	env->env[j] = str;
-	return (env);
-}
+	int	i;
+	int	j;
+	int	return_value;
+	int	option;
 
-t_envb	*new_export(t_envb *export, char *str)
-{
-	export->env[39] = str;
-	return (export);
+	i = 0;
+	return_value = 0;
+	while (av[i++])
+	{
+		option = 0;
+		return_value += check_args(av[i]);
+		j = -1;
+		while (env->env[++j])
+		{
+			if (!ft_strncmp(env->env[j], av[i], check_export(env->env[j])))
+				if (check_export(av[i]))
+					option = new_env2(env, j, av[i]);
+		}
+		if (option == 0)
+		{
+			env->env[j + 1] = NULL;
+			env->env[j] = av[i];
+		}
+	}
+	return (return_value);
 }
 
 int	main_export(int ac, char **av, t_envb *env)
 {
-	t_envb	*export;
-	int		i;
-	int		j;
 	int		return_value;
-	int		export_value;
+	int		tmp;
 
-	i = 1;
 	if (ac == 1)
 		print_export(env);
 	else
-	{
-		while (av[i])
-		{
-			return_value += check_args(av[i]);
-			export_value = check_export(av[i]);
-			j = 0;
-			while (env->env[j])
-			{
-				if (!ft_strncmp(env->env[j], av[i], export_value))
-				{
-					if (export_value > 0)
-						env = new_env2(env, export, j, av[i]);
-				}
-				j++;
-			}
-			env->env[j + 1] = NULL;
-			av[i] = ft_strjoin(av[i], "\n");
-			env->env[j] = av[i];
-			i++;
-		}
-	}
+		return_value = main_export_utils(env, av);
 	if (return_value > 0)
 		return_value = 1;
-	free(env->pwd);
-	free(env);
 	return (return_value);
 }

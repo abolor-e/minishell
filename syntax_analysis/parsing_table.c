@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_table.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:52:30 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/23 14:05:05 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/07/29 00:12:38 by marechaloli      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,23 @@ void	ms_free_table(t_table **trans)
 Takes all the data from the AUTOMATON
 */
 
-t_table	**ft_init_parsing_table(void)
+// char	*new_bison(void)
+// {
+// 	char	*pwd;
+// 	char	*buf;
+// 	long	size;
+
+// 	size = pathconf(".", _PC_PATH_MAX);
+// 	buf = malloc((size_t)size);
+// 	if (!buf)
+// 		return (".");
+// 	pwd = getcwd(buf, size);
+// 	if (pwd == NULL)
+// 		return (".");
+// 	return (pwd);
+// }
+
+t_table	**ft_init_parsing_table(char *path)
 {
 	t_table	**table;
 	int		fd;
@@ -121,7 +137,7 @@ t_table	**ft_init_parsing_table(void)
 		return (NULL);
 	table[0] = NULL;
 	table[LINES] = NULL;
-	fd = open(BISON_AUTOMATON, O_RDONLY);
+	fd = open(path, O_RDONLY);
 	if (fd == -1)
 	{
 		ms_free_table(table);

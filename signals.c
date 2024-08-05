@@ -1,16 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*  signals.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/17 15:09:46 by abolor-e          #+#    #+#             */
+/*   Updated: 2024/07/31 02:32:08 by marechaloli      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-// void	sigquit_handler(int sig)
-// {
-// 	if (isatty(STDIN_FILENO))
-// 	{
-// 		(void)sig;
-// 		signal(SIGQUIT, SIG_IGN);
-// 		ft_putstr_fd("\b\b", 2);
-
-// 	}
-// 	return ;
-// }
 
 void	ft_putstr_fd(char *s, int fd)
 {

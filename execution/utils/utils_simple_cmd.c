@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_simple_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:18:00 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 15:19:20 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/08/04 01:47:12 by marechaloli      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,16 @@ void	free_tab(char **tab)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (!tab)
 		return ;
-	while (tab[i])
-		free(tab[i++]);
+	while (tab[++i])
+		if (tab[i])
+			free(tab[i]);
 	free(tab);
 }
 
-char	**add_in_tab(char **cmd_tab, char *str_to_add)
+char	**add_in_tab(char **cmd_tab, char *str_to_add, t_envb *env)
 {
 	char	**tmp_tab;
 	int		i;
@@ -64,19 +65,26 @@ char	**add_in_tab(char **cmd_tab, char *str_to_add)
 	{
 		tmp_tab[i] = ft_strdup(cmd_tab[i]);
 		if (!tmp_tab[i])
-		{
-			free_tab(cmd_tab);
-			return (NULL);
-		}
+			return (free_tab(cmd_tab), NULL);
 		i++;
 	}
 	tmp_tab[i] = ft_strdup(str_to_add);
 	if (!tmp_tab[i])
-	{
-		free_tab(cmd_tab);
-		return (NULL);
-	}
+		return (free_tab(cmd_tab), NULL);
 	tmp_tab[i + 1] = NULL;
 	free_tab(cmd_tab);
 	return (tmp_tab);
+}
+
+char	**last_touch2(char **tab, int i)
+{
+	int	k;
+
+	k = i + 1;
+	while (tab[k])
+	{
+		tab[k] = tab[k + 1];
+		k++;
+	}
+	return (tab);
 }
