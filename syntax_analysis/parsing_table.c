@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_table.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:52:30 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/29 00:12:38 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 17:54:36 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_create_table_state(int fd, t_table **table)
 
 	i = 0;
 	line = NULL;
-	a = ft_get_next_line(fd, &line, 0);
+	a = ft_get_next_line(fd, &line);
 	while (a >= 0)
 	{
 		arg_line = ft_split(line, 9);
@@ -83,7 +83,7 @@ int	ft_create_table_state(int fd, t_table **table)
 			break ;
 		if (!table[i])
 			return (-1);
-		a = ft_get_next_line(fd, &line, 0);
+		a = ft_get_next_line(fd, &line);
 	}
 	if (a == -1)
 		return (-1);
@@ -111,22 +111,6 @@ void	ms_free_table(t_table **trans)
 Takes all the data from the AUTOMATON
 */
 
-// char	*new_bison(void)
-// {
-// 	char	*pwd;
-// 	char	*buf;
-// 	long	size;
-
-// 	size = pathconf(".", _PC_PATH_MAX);
-// 	buf = malloc((size_t)size);
-// 	if (!buf)
-// 		return (".");
-// 	pwd = getcwd(buf, size);
-// 	if (pwd == NULL)
-// 		return (".");
-// 	return (pwd);
-// }
-
 t_table	**ft_init_parsing_table(char *path)
 {
 	t_table	**table;
@@ -141,14 +125,12 @@ t_table	**ft_init_parsing_table(char *path)
 	if (fd == -1)
 	{
 		ms_free_table(table);
-		printf("Test 1");
 		return (NULL);
 	}
 	if (ft_create_table_state(fd, table) == -1)
 	{
 		ms_free_table(table);
 		close (fd);
-		printf("Test 2");
 		return (NULL);
 	}
 	close(fd);

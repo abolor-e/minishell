@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_quote.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:54:43 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/26 13:18:45 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 14:50:33 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	replace_var_util(char *str, int length, char *new, int *i_new)
 	char	*newstr;
 	char	*string;
 
+	newstr = NULL;
 	i = -1;
 	string = malloc(sizeof(char) * (length + 1));
 	if (!string)
@@ -51,7 +52,7 @@ int	replace_var(t_varcomb vc, int index, char *new, int *i_new)
 	int		length;
 
 	if (vc.s[index] == '?')
-		return (replace_var_2(new, vc.exit, i_new, 1));
+		return (replace_var_2(new, 0, i_new, 1));
 	length = envvar_len(vc.s);
 	if (!length)
 		return (0);

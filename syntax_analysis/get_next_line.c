@@ -6,7 +6,7 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 12:31:11 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/23 14:11:31 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:50:51 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	create_buffer_list(t_list **list, int fd)
 	return (char_read);
 }
 
-int	ft_get_next_line(int fd, char **next_line, int to_free)
+int	ft_get_next_line(int fd, char **next_line)
 {
 	static t_list	*list = NULL;
 	int				i;

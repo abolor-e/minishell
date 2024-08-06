@@ -1,46 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils5.c                                           :+:      :+:    :+:   */
+/*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 15:06:28 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/19 15:06:32 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:54:30 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*
-** TREE TYPE FIXING
-*/
-
-static void	ms_visit_fix_types(t_tree *node)
+static void	visit_and_fix_node_types(t_tree *current_node)
 {
-	if (!node)
+	if (!current_node)
 		return ;
-	if (node->reduc == R_FILENAME)
-		node->right->type = A_FILE;
-	if (node->reduc == R_HERE_END)
-		node->right->type = A_LIMITER;
-	if (node->reduc > R_CMD_WORD)
+	if (current_node->reduc == R_FILENAME)
+		current_node->right->type = A_FILE;
+	if (current_node->reduc == R_HERE_END)
+		current_node->right->type = A_LIMITER;
+	if (current_node->reduc > R_CMD_WORD)
 	{
-		if (node->left && node->left->type == A_CMD)
-			node->left->type = A_PARAM;
-		if (node->right && node->right->type == A_CMD)
-			node->right->type = A_PARAM;
+		if (current_node->left && current_node->left->type == A_CMD)
+			current_node->left->type = A_PARAM;
+		if (current_node->right && current_node->right->type == A_CMD)
+			current_node->right->type = A_PARAM;
 	}
-	ms_visit_fix_types(node->left);
-	ms_visit_fix_types(node->right);
+	visit_and_fix_node_types(current_node->left);
+	visit_and_fix_node_types(current_node->right);
 }
 
-t_tree	*ms_fix_param_types(t_tree *tree)
+t_tree	*fix_parameter_types(t_tree *syntax_tree)
 {
-	if (tree && tree->type == -1)
-		tree->type = -2;
-	ms_visit_fix_types(tree);
-	return (tree);
+	if (syntax_tree && syntax_tree->type == -1)
+		syntax_tree->type = -2;
+	visit_and_fix_node_types(syntax_tree);
+	return (syntax_tree);
 }
 
 /*
@@ -49,31 +45,30 @@ t_tree	*ms_fix_param_types(t_tree *tree)
 ** node
 */
 
-void	ms_remove_node_from_list(t_tree **tree, t_tree *node)
+void	remove_node_from_list(t_tree **head, t_tree *target_node)
 {
-	t_tree	*previous;
-	t_tree	*tmp;
+	t_tree	*prev_node;
+	t_tree	*current_node;
 
-	previous = NULL;
-	tmp = NULL;
-	if (*tree == node)
+	prev_node = NULL;
+	current_node = NULL;
+	if (*head == target_node)
 	{
-		*tree = node->next;
+		*head = target_node->next;
 		return ;
 	}
 	else
 	{
-		previous = NULL;
-		tmp = *tree;
-		while (tmp)
+		current_node = *head;
+		while (current_node)
 		{
-			if (tmp == node)
+			if (current_node == target_node)
 			{
-				previous->next = tmp->next;
+				prev_node->next = current_node->next;
 				return ;
 			}
-			previous = tmp;
-			tmp = tmp->next;
+			prev_node = current_node;
+			current_node = current_node->next;
 		}
 	}
 }

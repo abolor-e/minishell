@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 01:53:23 by marechaloli       #+#    #+#             */
-/*   Updated: 2024/08/04 23:12:28 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 15:07:46 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,21 @@ void	parse_redirections(t_command *cmd_node, t_envb *env)
 	i = 0;
 	while (cmd_node->args[i])
 	{
-		if (strcmp(cmd_node->args[i], ">") == 0)
-		{
+		if (!ft_strcmp(cmd_node->args[i], ">"))
 			cmd_node->output_file = strdup(cmd_node->args[i + 1]);
-			cmd_node->args[i] = NULL;
-		}
-		else if (strcmp(cmd_node->args[i], ">>") == 0)
+		else if (!ft_strcmp(cmd_node->args[i], ">>"))
 		{
 			cmd_node->output_file = strdup(cmd_node->args[i + 1]);
 			cmd_node->append_output = 1;
-			cmd_node->args[i] = NULL;
 		}
-		else if (strcmp(cmd_node->args[i], "<") == 0)
-		{
+		else if (!ft_strcmp(cmd_node->args[i], "<"))
 			cmd_node->input_file = strdup(cmd_node->args[i + 1]);
+		else if (!ft_strcmp(cmd_node->args[i], "<<"))
+			hd_handler(cmd_node->args[i + 1], env);
+		if (!ft_strcmp(cmd_node->args[i], "<<") || !ft_strcmp(cmd_node->args[i],
+				"<") || !ft_strcmp(cmd_node->args[i], ">>")
+			|| !ft_strcmp(cmd_node->args[i], ">"))
 			cmd_node->args[i] = NULL;
-		}
 		i++;
 	}
 }

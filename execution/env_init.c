@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:20:01 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/08/04 22:49:10 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 14:46:39 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ t_envb	*change_shlvl(t_envb	*env)
 	int		i;
 	char	**tmp;
 	int		nbrtmp;
-	char	*tmp2;
 
 	nbrtmp = 0;
 	i = 0;
@@ -43,7 +42,6 @@ t_envb	*env_init(char **env)
 	char	*buff;
 	t_envb	*envinit;
 	int		i;
-	char	*old_pwd;
 
 	envinit = malloc(sizeof(t_envb));
 	buff = malloc(1024);

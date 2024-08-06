@@ -3,22 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 01:09:22 by marechaloli       #+#    #+#             */
-/*   Updated: 2024/07/31 01:47:03 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 16:34:35 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_envb	*new_export(t_envb *export, char *str)
-{
-	export->env[39] = str;
-	return (export);
-}
-
-void	check_export_utils(char **env, char **tmp)
+void	check_export_utils(char **tmp)
 {
 	char	**tmp2;
 
@@ -73,10 +67,10 @@ int	check_print(char *str)
 	int	i;
 	int	j;
 
+	i = 0;
 	while (str[i])
 		i++;
 	j = i;
-	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '=')

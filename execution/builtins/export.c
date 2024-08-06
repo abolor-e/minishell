@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:14:16 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/08/04 23:47:01 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 14:37:36 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ int	main_export_utils(t_envb *env, char **av)
 int	main_export(int ac, char **av, t_envb *env)
 {
 	int		return_value;
-	int		tmp;
 
+	return_value = 0;
 	if (ac == 1)
 		print_export(env);
 	else

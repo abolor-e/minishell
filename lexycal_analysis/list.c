@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:47:28 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/16 15:47:44 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:07:27 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_ttypes	catego_toketype(char *content, int c)
+int	catego_toketype(char *content, int c)
 {
 	if (!content)
 		return (T_END);
@@ -48,7 +48,7 @@ void	ft_tokenadd_back(t_token **lst, t_token *new)
 	current->next = new;
 }
 
-t_token	*ft_newtoken(void *content, int c)
+void	*ft_newtoken(void *content, int c)
 {
 	t_token		*re;
 
@@ -56,7 +56,7 @@ t_token	*ft_newtoken(void *content, int c)
 	if (!re)
 		return (0);
 	re->value = content;
-	re->type = (int)catego_toketype(content, c);
+	re->type = catego_toketype(content, c);
 	re->quote = c;
 	re->next = 0;
 	return (re);

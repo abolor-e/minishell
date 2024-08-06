@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:49:13 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/08/04 22:44:30 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 14:49:22 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ char	**init_pipe_cmd(t_tree *tree, char **cmd_tab, t_envb *env)
 	{
 		if (tree->type == A_PARAM)
 			tree->data = ft_strjoin("~", tree->data);
-		cmd_tab = add_in_tab(cmd_tab, tree->data, env);
+		cmd_tab = add_in_tab(cmd_tab, tree->data);
 	}
 	if (tree->reduc == R_IO_HERE || tree->reduc == R_IO_FILE)
 	{
-		cmd_tab = add_in_tab(cmd_tab, tree->left->data, env);
+		cmd_tab = add_in_tab(cmd_tab, tree->left->data);
 		if (tree->reduc == R_IO_HERE)
-			cmd_tab = add_in_tab(cmd_tab, tree->right->right->data, env);
+			cmd_tab = add_in_tab(cmd_tab, tree->right->right->data);
 	}
 	return (cmd_tab);
 }
@@ -97,9 +97,9 @@ int	exec_builtin(char **cmd_tab, t_envb *env)
 	if (!ft_strcmp("export", cmd_tab[0]))
 		return (env->exstatus = main_export(ac, cmd_tab, env));
 	if (!ft_strcmp("pwd", cmd_tab[0]))
-		return (env->exstatus = main_pwd(ac, cmd_tab));
+		return (env->exstatus = main_pwd(cmd_tab));
 	if (!ft_strcmp("unset", cmd_tab[0]))
-		return (env->exstatus = main_unset(ac, cmd_tab, env));
+		return (env->exstatus = main_unset(cmd_tab, env));
 	return (0);
 }
 

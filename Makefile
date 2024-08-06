@@ -1,8 +1,7 @@
 NAME 		= minishell
 CC 			= gcc
-CFLAGS 		= -g3 -g -fsanitize=address #-Wall -Wextra -Werror
-RDLN_FLAG	= -L/Users/anarsmacbook/.brew/opt/readline/lib -I/Users/anarsmacbook/.brew/opt/readline/include -lreadline
-
+CFLAGS 		= -g3 -g fsanitize=address -Wall -Wextra -Werror
+RDLN_FLAG	= -L/Users/$(shell whoami)/.brew/opt/readline/lib -I/Users/$(shell whoami)/.brew/opt/readline/include -lreadline
 
 RED			= \033[1;31m
 BLUE		= \033[1;34m

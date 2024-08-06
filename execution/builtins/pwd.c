@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:16:01 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/17 15:16:02 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:38:50 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_pwd(void)
 	return (0);
 }
 
-int	main_pwd(int ac, char **av)
+int	main_pwd(char **av)
 {
 	if (!ft_strncmp(av[0], "pwd", 3))
 	{

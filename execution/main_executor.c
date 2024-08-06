@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_executor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:20:39 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/08/04 02:51:38 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 16:13:02 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@ int	tree_finder(t_tree *tree, int param, int nb)
 int	ast_executor(t_tree *tree, t_envb *env)
 {
 	int	return_value;
-	int	fd[2];
-	int	bad_event;
 	int	pipe_counter;
-	int	*hd_pipes;
 
+	pipe_counter = 0;
 	return_value = 0;
 	pipe_counter = tree_finder(tree, A_PIPE, 0);
 	if (pipe_counter > 0)

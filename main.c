@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:09:46 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/31 02:32:08 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 17:47:39 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	*new_bison(void)
 
 void	free_env(t_envb *env)
 {
-	free(env->pwd);
 	free(env);
 }
 
@@ -75,9 +74,10 @@ int	main(int ac, char **av, char **envp)
 {
 	t_token		*input;
 	t_envb		*env;
-	char		**test;
 	char		*pt_path;
 
+	input = NULL;
+	(void)av;
 	if (ac == 1)
 	{
 		if (!(envp[0]))

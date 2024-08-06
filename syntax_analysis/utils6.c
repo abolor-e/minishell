@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils8.c                                           :+:      :+:    :+:   */
+/*   utils6.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abolor-e <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 15:08:30 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/19 15:08:32 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:51:28 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	*ft_calloc(size_t count, size_t size)
 ** At the end of the parser or if an error occurs during the parsing.
 */
 
-void	ms_clear_input(t_token *input)
+void	clear_input(t_token *input)
 {
 	t_token	*next;
 
@@ -53,12 +53,12 @@ void	ms_clear_input(t_token *input)
 ** At the end of the parser or if an error occurs during the parsing.
 */
 
-void	ms_clear_tree(t_tree **node)
+void	clear_tree(t_tree **node)
 {
 	if (*node)
 	{
-		ms_clear_tree(&(*node)->left);
-		ms_clear_tree(&(*node)->right);
+		clear_tree(&(*node)->left);
+		clear_tree(&(*node)->right);
 		if (!(*node)->left && !(*node)->right)
 		{
 			free((*node)->data);
@@ -72,11 +72,11 @@ void	ms_clear_tree(t_tree **node)
 ** PARSER CLEANING
 */
 
-void	ms_parser_cleaning(\
+void	parser_cleaning(\
 	t_tree **tree, t_stack *stack, t_token *input, int ret)
 {
 	if (ret == -1)
-		ms_clear_tree(tree);
-	ms_clear_stack(stack);
-	ms_clear_input(input);
+		clear_tree(tree);
+	clear_stack(stack);
+	clear_input(input);
 }

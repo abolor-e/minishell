@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_simple_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:18:00 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/08/04 01:47:12 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 14:45:51 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-char	**add_in_tab(char **cmd_tab, char *str_to_add, t_envb *env)
+char	**add_in_tab(char **cmd_tab, char *str_to_add)
 {
 	char	**tmp_tab;
 	int		i;

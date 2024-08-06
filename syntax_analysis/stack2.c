@@ -6,13 +6,13 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:47:08 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/19 14:47:19 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:51:24 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ms_clear_stack(t_stack *stack)
+void	clear_stack(t_stack *stack)
 {
 	t_stack	*next;
 

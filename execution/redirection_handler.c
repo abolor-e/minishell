@@ -3,20 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_handler.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:47:02 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/08/04 22:30:37 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 16:15:28 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	hd_handler(char *delimiter, t_tree *ast, t_envb *env)
+void	hd_handler(char *delimiter, t_envb *env)
 {
-	int		hd_pipe[2];
 	char	*line;
-	int		nbhd;
 
 	if (delimiter[0] == '$')
 		delimiter = dollar_parse(delimiter + 1, env);
@@ -35,6 +33,7 @@ int	red_manager(t_tree *ast, int order, t_envb *env)
 {
 	int	fd;
 
+	fd = 0;
 	if (order == 1)
 		fd = open(ast->right->right->data, O_CREAT | O_RDWR | O_APPEND, 0644);
 	else if (order == 2)
@@ -42,7 +41,7 @@ int	red_manager(t_tree *ast, int order, t_envb *env)
 	else if (order == 3)
 		fd = open(ast->right->right->data, O_RDONLY);
 	else if (order == 4)
-		hd_handler((char *)ast->right->right->data, ast, env);
+		hd_handler((char *)ast->right->right->data, env);
 	if (fd == -1)
 		return (-1);
 	if (order == 1 || order == 2)

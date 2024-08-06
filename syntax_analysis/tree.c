@@ -6,13 +6,13 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:04:35 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/19 15:01:43 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:51:47 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_tree	*ms_stack_to_node(t_stack *popped)
+t_tree	*stack_to_node(t_stack *popped)
 {
 	t_tree	*node;
 
@@ -37,13 +37,7 @@ t_tree	*ms_stack_to_node(t_stack *popped)
 	return (NULL);
 }
 
-/*
-** SEARCH REDUCTION
-** Search for a reduction node in the node list to attach it
-** under the current reduction node.
-*/
-
-t_tree	*ms_search_reduction(t_tree **tree, int reduction)
+t_tree	*find_reduction(t_tree **tree, int reduction)
 {
 	t_tree	*begin;
 	t_tree	*result;
@@ -56,7 +50,7 @@ t_tree	*ms_search_reduction(t_tree **tree, int reduction)
 		if ((*tree)->reduc == reduction)
 		{
 			result = *tree;
-			ms_remove_node_from_list(&begin, *tree);
+			remove_node_from_list(&begin, *tree);
 			break ;
 		}
 		*tree = (*tree)->next;
@@ -65,13 +59,7 @@ t_tree	*ms_search_reduction(t_tree **tree, int reduction)
 	return (result);
 }
 
-/*
-** ADD REDUCTION FRONT
-** Creates a node for the current reduction and adds it in front
-** of the node list;
-*/
-
-t_tree	*ms_add_reduction_front(t_tree **tree, int reduction)
+t_tree	*add_reduction_front(t_tree **tree, int reduction)
 {
 	t_tree	*node;
 
@@ -90,55 +78,44 @@ t_tree	*ms_add_reduction_front(t_tree **tree, int reduction)
 	return (NULL);
 }
 
-/*
-** BUILD TREE
-** Attach the right nodes under the reduction node.
-*/
-
-int	ms_build_tree(t_tree **tree, t_tree *reduc_node, t_stack **popped)
+int	build_syntax_tree(t_tree **tree, t_tree *rdc, t_stack **tokens)
 {
-	int		i;
-	t_tree	*child;
-	t_stack	*begin;
+	t_stack	*initial_stack;
+	int		index;
+	t_tree	*new_node;
 
-	i = -1;
-	child = NULL;
-	begin = *popped;
-	while (*popped)
+	new_node = NULL;
+	initial_stack = *tokens;
+	index = -1;
+	while (*tokens)
 	{
-		if ((*popped)->type >= 100)
-			child = ms_search_reduction(tree, (*popped)->type);
+		if ((*tokens)->type >= 100)
+			new_node = find_reduction(tree, (*tokens)->type);
 		else
-			child = ms_stack_to_node(*popped);
-		if (!child)
+			new_node = stack_to_node(*tokens);
+		if (!new_node)
 			return (-1);
-		if (++i == 0)
-			reduc_node->right = child;
+		if (++index == 0)
+			rdc->right = new_node;
 		else
-			reduc_node->left = child;
-		if (i == 1 && (*popped)->next)
-			reduc_node = reduc_node->left;
-		(*popped) = (*popped)->next;
+			rdc->left = new_node;
+		if (index == 1 && (*tokens)->next)
+			rdc = rdc->left;
+		*tokens = (*tokens)->next;
 	}
-	*popped = begin;
+	*tokens = initial_stack;
 	return (0);
 }
 
-/*
-** ADD TREE
-** Add the popped elements from the stack to the output tree, under
-** the reduction node.
-*/
-
-int	ms_add_tree(t_tree **tree, t_stack **popped, int reduction)
+int	add_syntax_tree(t_tree **syntax_tree, t_stack **token_list, int rule)
 {
-	t_tree	*reduc_node;
+	t_tree	*reduce_node;
 
-	reduc_node = NULL;
-	reduc_node = ms_add_reduction_front(tree, reduction);
-	if (reduc_node)
+	reduce_node = NULL;
+	reduce_node = add_reduction_front(syntax_tree, rule);
+	if (reduce_node)
 	{
-		if (!ms_build_tree(tree, reduc_node, popped))
+		if (!build_syntax_tree(syntax_tree, reduce_node, token_list))
 			return (0);
 	}
 	return (-1);

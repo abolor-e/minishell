@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 01:05:26 by marechaloli       #+#    #+#             */
-/*   Updated: 2024/08/04 23:42:48 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 14:11:15 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	*get_pwd(char *buff)
 int	go_home2(char **envp)
 {
 	int		i;
-	//char	buff[1024];
 
 	i = 0;
 	while (envp[i])

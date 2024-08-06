@@ -6,7 +6,7 @@
 /*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:57:10 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/19 14:50:24 by abolor-e         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:50:55 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,14 @@ int	reduce_stack(t_table *table_entry, t_tree **tree,
 			j = pro_red_next_state(*stack, pt);
 			if (!change_stack_state(j, stack))
 			{
-				if (!ms_add_tree(tree, &pop_stack, table_entry->next_state))
+				if (!add_syntax_tree(tree, &pop_stack, table_entry->next_state))
 				{
-					ms_clear_stack(pop_stack);
+					clear_stack(pop_stack);
 					return (0);
 				}
 			}
 		}
-		ms_clear_stack(pop_stack);
+		clear_stack(pop_stack);
 	}
 	return (-1);
 }

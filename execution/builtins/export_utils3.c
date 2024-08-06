@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 01:12:59 by marechaloli       #+#    #+#             */
-/*   Updated: 2024/08/04 23:41:01 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 14:38:39 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_all_utils(char **env)
 		{
 			tmp = ft_split(env[i], '=');
 			if (check_stupid(tmp[1], '\n'))
-				check_export_utils(env, tmp);
+				check_export_utils(env);
 			else
 			{
 				if (!tmp[1])

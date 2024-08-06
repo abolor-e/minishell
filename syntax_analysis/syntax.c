@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:02:19 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/25 01:03:01 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 17:53:38 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_table	*getentry(t_token *token, t_table **parsingtable, t_stack *stack)
 	table_entry = NULL;
 	if (token != NULL)
 		t_type = token->type;
-	while (parsingtable[++i])
+	while (parsingtable[++i] && )
 	{
 		if (parsingtable[i]->state == stack->state)
 		{
@@ -107,6 +107,6 @@ t_tree	*syntax_analysis(t_token *token, t_table **parsingtable)
 		else
 			i = reject();
 	}
-	ms_parser_cleaning(&tree, stack, input_begin, i);
-	return (ms_fix_param_types(tree));
+	parser_cleaning(&tree, stack, input_begin, i);
+	return (fix_parameter_types(tree));
 }

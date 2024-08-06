@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_simple_cmd3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 01:15:46 by marechaloli       #+#    #+#             */
-/*   Updated: 2024/07/24 01:17:37 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 14:46:17 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	**init_simple_cmd(t_tree *tree, char **cmd_tab, t_envb *env)
 	cmd_tab = init_simple_cmd(tree->left, cmd_tab, env);
 	cmd_tab = init_simple_cmd(tree->right, cmd_tab, env);
 	if (tree->type == A_CMD || tree->type == A_PARAM)
-		cmd_tab = add_in_tab(cmd_tab, tree->data, env);
+		cmd_tab = add_in_tab(cmd_tab, tree->data);
 	return (cmd_tab);
 }
 

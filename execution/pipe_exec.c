@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:29:42 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/08/04 23:33:53 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 14:47:56 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	red_dealer(char *cmd, t_command *cmd_node, t_piped *piped)
 	int		fd;
 	pid_t	pid;
 
+	fd = 0;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -57,7 +58,6 @@ void	red_dealer(char *cmd, t_command *cmd_node, t_piped *piped)
 int	execute_command(t_piped *piped, int cmd_index, t_envb *env)
 {
 	t_command	*cmd_node;
-	pid_t		pid;
 	char		*cmd;
 	int			i;
 
@@ -82,7 +82,7 @@ int	execute_command(t_piped *piped, int cmd_index, t_envb *env)
 	exit (127);
 }
 
-int	end_process(t_piped *piped, t_envb *env, int return_value)
+int	end_process(t_piped *piped, t_envb *env)
 {
 	int	status;
 	int	i;
@@ -127,5 +127,5 @@ int	main_pipe(int ac, char **av, t_envb *env)
 			return_value = execute_command(&piped, i, env);
 		i++;
 	}
-	return (end_process(&piped, env, return_value));
+	return (end_process(&piped, env));
 }

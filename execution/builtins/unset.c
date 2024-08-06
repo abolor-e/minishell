@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marechalolivier <marechalolivier@studen    +#+  +:+       +#+        */
+/*   By: abolor-e <abolor-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:16:17 by abolor-e          #+#    #+#             */
-/*   Updated: 2024/07/26 13:08:06 by marechaloli      ###   ########.fr       */
+/*   Updated: 2024/08/06 14:40:40 by abolor-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ int	check_argsu(char *av)
 	return (0);
 }
 
-int	main_unset(int ac, char **av, t_envb *env)
+int	main_unset(char **av, t_envb *env)
 {
 	int		i;
 	int		j;
 	int		return_value;
 
+	return_value = 0;
 	i = 1;
 	while (av[i])
 	{
