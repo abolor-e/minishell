@@ -31,10 +31,8 @@ void	initial(char *new)
 
 void	change_single_env(t_varcomb *vc)
 {
-	int		i;
 	char	*tmp;
 
-	i = 0;
 	tmp = NULL;
 	if (vc->s[0] == '\'' && vc->s[ft_strlen(vc->s) - 1] == '\'')
 	{

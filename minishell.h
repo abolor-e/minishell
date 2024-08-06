@@ -222,6 +222,7 @@ void		*token_creation(char *line, int *q);
 //syntactical!
 int			add_syntax_tree(t_tree **syntax_tree,
 				t_stack **token_list, int rule);
+void	free_line_args(char *line, char **args);
 int			build_syntax_tree(t_tree **tree, t_tree *rdc, t_stack **tokens);
 void		remove_node_from_list(t_tree **head, t_tree *target_node);
 t_tree		*stack_to_node(t_stack *popped);

@@ -111,9 +111,9 @@ int	main_pipe(int ac, char **av, t_envb *env)
 {
 	t_piped	piped;
 	int		i;
-	int		return_value;
+	//int		return_value;
 
-	return_value = 0;
+	//return_value = 0;
 	i = 0;
 	if (!creat_pipe(&piped, env, av, ac))
 	{
@@ -123,8 +123,8 @@ int	main_pipe(int ac, char **av, t_envb *env)
 	while (i < ac)
 	{
 		piped.pid[i] = fork();
-		if (piped.pid[i] == 0)
-			return_value = execute_command(&piped, i, env);
+		//if (piped.pid[i] == 0)
+			//return_value = execute_command(&piped, i, env);
 		i++;
 	}
 	return (end_process(&piped, env));

@@ -53,9 +53,6 @@ void	print_3(t_envb *env)
 
 void	print_export(t_envb *env)
 {
-	int	i;
-
-	i = 0;
 	if (!env->env)
 		print_3(env);
 	else

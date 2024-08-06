@@ -44,7 +44,7 @@ t_table	*ft_add_table_line(char **arg_line)
 Takes all the transitions of the table (lines)
 */
 
-static int	free_line_args(char *line, char **args, int code)
+void	free_line_args(char *line, char **args)
 {
 	char	**begin;
 
@@ -60,7 +60,6 @@ static int	free_line_args(char *line, char **args, int code)
 		}
 		free(begin);
 	}
-	return (code);
 }
 
 int	ft_create_table_state(int fd, t_table **table)
@@ -75,18 +74,48 @@ int	ft_create_table_state(int fd, t_table **table)
 	a = ft_get_next_line(fd, &line);
 	while (a >= 0)
 	{
+		// printf("line = %s", line);
+		// if (line == NULL)
+		// {
+		// 	fprintf(stderr, "Error reading line %d: line is NULL.\n", i);
+		// 	return (-1);
+		// }
 		arg_line = ft_split(line, 9);
-		table[i++] = ft_add_table_line(arg_line);
-		free_line_args(line, arg_line, 0);
+		// int j = 0;
+		// while (arg_line[j])
+		// {
+		// 	printf("%d = %s ", j, arg_line[j]);
+		// 	j++;
+		// }
+		if (!arg_line)
+		{
+			fprintf(stderr, "Error splitting line %d: split failed.\n", i);
+			free(line);
+			return (-1);
+		}
+		table[i] = ft_add_table_line(arg_line);
+		if (!table[i])
+		{
+			fprintf(stderr, "Error adding table line %d: add failed.\n", i);
+			free_line_args(line, arg_line);
+			return (-1);
+		}
+		i++;
+		// printf ("a = %d\n", a);
+		free_line_args(line, arg_line);
 		line = NULL;
 		if (a == 0)
 			break ;
-		if (!table[i])
-			return (-1);
 		a = ft_get_next_line(fd, &line);
+		if (a == 0)
+			break ;
+		// printf("a1 = %d\n", a);
 	}
 	if (a == -1)
-		return (-1);
+	{
+		fprintf(stderr, "Error reading from file: ft_get_next_line failed.\n");
+		return(-1);
+	}
 	return (0);
 }
 
@@ -129,10 +158,17 @@ t_table	**ft_init_parsing_table(char *path)
 	}
 	if (ft_create_table_state(fd, table) == -1)
 	{
+		fprintf(stderr, "Failed to create table state from file: %s\n", path);
 		ms_free_table(table);
 		close (fd);
 		return (NULL);
 	}
 	close(fd);
+	//int i = 0;
+	// while (table[i] != NULL)
+	// {
+	// 	printf("i = %d, -> %d, %d, %d, %d, %d\n", i, table[i]->state, table[i]->token_type, table[i]->action, table[i]->next_state, table[i]->nb_reduce);
+	// 	i++;
+	// }
 	return (table);
 }

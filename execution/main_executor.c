@@ -25,11 +25,9 @@ int	tree_finder(t_tree *tree, int param, int nb)
 
 int	ast_executor(t_tree *tree, t_envb *env)
 {
-	int	return_value;
 	int	pipe_counter;
 
 	pipe_counter = 0;
-	return_value = 0;
 	pipe_counter = tree_finder(tree, A_PIPE, 0);
 	if (pipe_counter > 0)
 		return (exec_simple_cmd(tree, env));

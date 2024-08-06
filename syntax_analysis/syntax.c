@@ -49,13 +49,15 @@ t_table	*getentry(t_token *token, t_table **parsingtable, t_stack *stack)
 
 	if (!stack)
 		return (NULL);
+	
 	i = -1;
 	t_type = -1;
 	table_entry = NULL;
 	if (token != NULL)
 		t_type = token->type;
-	while (parsingtable[++i] && )
+	while (parsingtable[++i])
 	{
+		//printf("i = %d, -> %d, %d, %d, %d, %d\n", i, parsingtable[i]->state, parsingtable[i]->token_type, parsingtable[i]->action, parsingtable[i]->next_state, parsingtable[i]->nb_reduce);
 		if (parsingtable[i]->state == stack->state)
 		{
 			if (parsingtable[i]->token_type == t_type)
